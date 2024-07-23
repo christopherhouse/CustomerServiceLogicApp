@@ -3,6 +3,9 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+# Functions local env variables shouldn't be committed
+local.settings.json
+
 # dotenv files
 .env
 
