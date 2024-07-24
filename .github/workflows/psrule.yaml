@@ -27,7 +27,7 @@ jobs:
         outcome: Fail, Pass, Error, Processed, Problem, All          # Optional. Filters output to include results with the specified outcome.
         outputFormat: Sarif                                          # Optional. The format to use when writing results to disk.
         outputPath: 'reports/ps-rule-results.sarif'                                             # Optional. The file path to write results to.
-        path: './infrastructure'                                                   # Optional. The working directory PSRule is run from.
+        path: './'                                                   # Optional. The working directory PSRule is run from.
         prerelease: false                                          # Optional. Determine if a pre-release module version is installed.
         summary: true                                             # Optional. Determines if a job summary is written.
       
