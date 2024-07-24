@@ -71,7 +71,7 @@ jobs:
            
      - name: Deploy main Bicep template
        run: |
-          az deployment group create --name main-${{ github.run_id }} --resource-group $RESOURCE_GROUP_NAME --template-file ./bicep/main.bicep --parameters ./bicep/parameters/main.dev.bicepparam
+          az deployment group create --name main-${{ github.run_id }} --resource-group ${{ vars.RESOURCE_GROUP_NAME }} --template-file ./bicep/main.bicep --parameters ./bicep/parameters/main.dev.bicepparam
   
 
      - name: Deploy to Azure Logic App
