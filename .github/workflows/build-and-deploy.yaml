@@ -25,8 +25,7 @@ jobs:
 
       - name: Build Bicep templates
         run: |
-          az bicep build --file infrastructure/bicep/01-foundation.bicep
-          az bicep build --file infrastructure/bicep/02-main.bicep          
+          az bicep build --file infrastructure/bicep/main.bicep          
 
       - name: Swap connection.json
         run: |
