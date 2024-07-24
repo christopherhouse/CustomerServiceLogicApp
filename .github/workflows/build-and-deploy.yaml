@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Swap connection.json
         run: |
-          ls -al .
+          ls -al ./logic-app/
           mv logic-app/connections.json logic-app/connections.json.bak
           mv logic-app/connections.dev.json logic-app/connections.json
       - uses: actions/checkout@v4
