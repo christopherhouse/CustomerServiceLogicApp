@@ -8,17 +8,27 @@ jobs:
   Build:
     runs-on: self-hosted
     steps:
+      - name: 'Cleanup build folder'
+        run: |
+          ls -la ./
+          rm -rf ./* || true
+          rm -rf ./.??* || true
+          ls -la ./
+
+      - uses: actions/checkout@v4
+
       - name: Swap connection.json
         run: |
           ls -al ./logic-app/
           # mv logic-app/connections.json logic-app/connections.json.bak
           # mv logic-app/connections.dev.json logic-app/connections.json
-      - uses: actions/checkout@v4
+
       - name: Easy Zip Files
         uses: vimtor/action-zip@v1.2
         with:
           dest: ${{ github.run_id }}.zip
           files: ./logic-app/
+
       - uses: actions/upload-artifact@master
         with:
           name: build-artifact
@@ -46,4 +56,3 @@ jobs:
        with:
         app-name: ${{vars.LOGIC_APP_NAME}}
         package: build-art/${{ github.run_id }}.zip
-       # publish-profile: ${{steps.laapp.outputs.profile}}
