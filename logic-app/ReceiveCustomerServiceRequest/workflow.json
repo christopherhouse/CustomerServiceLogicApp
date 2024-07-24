@@ -6,10 +6,55 @@
                 "type": "Response",
                 "kind": "Http",
                 "inputs": {
-                    "statusCode": 200,
-                    "body": "@triggerBody()"
+                    "statusCode": "@variables('statusCode')",
+                    "body": "@outputs('Compose_Response')"
+                },
+                "runAfter": {
+                    "Compose_Response": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Initialize_variable_-_statusCode": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "statusCode",
+                            "type": "integer",
+                            "value": 200
+                        }
+                    ]
                 },
                 "runAfter": {}
+            },
+            "Initialize_variable_workflowRunId": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "workflowRunId",
+                            "type": "string",
+                            "value": "@{workflow()['run']['name']}"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Initialize_variable_-_statusCode": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Compose_Response": {
+                "type": "Compose",
+                "inputs": {
+                    "requestId": "@{variables('workflowRunId')}"
+                },
+                "runAfter": {
+                    "Initialize_variable_workflowRunId": [
+                        "SUCCEEDED"
+                    ]
+                }
             }
         },
         "contentVersion": "1.0.0.0",
