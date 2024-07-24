@@ -1,4 +1,4 @@
-name: DeploySimpleWorkflow
+name: 'Build and Deploy Logic App'
 on:
   push:
     branches: [ main ]
