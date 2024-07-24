@@ -51,6 +51,34 @@
                     "requestId": "@{variables('workflowRunId')}"
                 },
                 "runAfter": {
+                    "Scope": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Scope": {
+                "type": "Scope",
+                "actions": {
+                    "Send_message": {
+                        "type": "ServiceProvider",
+                        "inputs": {
+                            "parameters": {
+                                "entityName": "customer-service-in",
+                                "message": {
+                                    "contentData": "@triggerBody()",
+                                    "messageId": "@variables('workflowRunId')",
+                                    "correlationId": "@variables('workflowRunId')"
+                                }
+                            },
+                            "serviceProviderConfiguration": {
+                                "connectionName": "serviceBus",
+                                "operationId": "sendMessage",
+                                "serviceProviderId": "/serviceProviders/serviceBus"
+                            }
+                        }
+                    }
+                },
+                "runAfter": {
                     "Initialize_variable_workflowRunId": [
                         "SUCCEEDED"
                     ]

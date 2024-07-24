@@ -1,0 +1,19 @@
+{
+  "managedApiConnections": {},
+  "serviceProviderConnections": {
+      "serviceBus": {
+          "displayName": "sbConn",
+          "parameterSetName": "ManagedServiceIdentity",
+          "parameterValues": {
+              "authProvider": {
+                  "Type": "ManagedServiceIdentity",
+                  "clientId": "49e01ea2-b3a6-4b59-ab6d-f963c97cf7cf"
+              },
+              "fullyQualifiedNamespace": "@appsetting('serviceBus_fullyQualifiedNamespace')"
+          },
+          "serviceProvider": {
+              "id": "/serviceProviders/serviceBus"
+          }
+      }
+  }
+}
