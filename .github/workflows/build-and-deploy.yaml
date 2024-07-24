@@ -13,7 +13,7 @@ jobs:
         uses: vimtor/action-zip@v1.2
         with:
           dest: ${{ github.run_id }}.zip
-          files: ./
+          files: ./logic-app/
       - uses: actions/upload-artifact@master
         with:
           name: build-artifact
