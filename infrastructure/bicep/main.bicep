@@ -62,7 +62,7 @@ var logicAppName = '${baseName}-la'
 var logicAppDeploymentName = '${logicAppName}-${deployment().name}'
 
 // Storage Account
-var storageAccountName = replace(toLower('${baseName}datasa'), '-', '')
+var storageAccountName = 'cmhbwcustsvcdatasa'
 var storageAccountDeploymentName = '${storageAccountName}-${deployment().name}'
 
 module uami './modules/managedIdentity/userAssignedManagedIdentity.bicep' = {
