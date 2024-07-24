@@ -74,6 +74,7 @@ module storage '../../storage/privateStorageAccount.bicep' = {
 resource logicApp 'Microsoft.Web/sites@2023-01-01' = {
   name: logicAppName
   location: region
+  tags: tags
   kind: 'functionapp,workflowapp'
   identity: {
     type: 'SystemAssigned, UserAssigned'
@@ -89,8 +90,11 @@ resource logicApp 'Microsoft.Web/sites@2023-01-01' = {
     }
     siteConfig: {
       alwaysOn: true
+      minTlsVersion: '1.2'
+      http20Enabled: true
     }
     publicNetworkAccess: 'Disabled'
+    httpsOnly: true
   }
 }
 
@@ -103,7 +107,7 @@ resource config 'Microsoft.Web/sites/config@2023-01-01' = {
     FUNCTIONS_WORKER_RUNTIME: 'node'
     FUNCTIONS_EXTENSION_VERSION: '~4'
     WEBSITE_CONTENTZUREFILESCONNECTIONSTRING: '@Microsoft.KeyVault(SecretUri=${storage.outputs.connectionStringSecretUri})'
-    WEBSITE_NODE_DEFAULT_VERSION: '~18'
+    WEBSITE_NODE_DEFAULT_VERSION: '~20'
     WEBSITE_CONTENTOVERVNET: '1'
     vnetrouteallenabled: '1'
     APPINSIGHTS_INSTRUMENTATIONKEY: '@Microsoft.KeyVault(SecretUri=${appInsightsInstrumentationKeySecretUri})'
