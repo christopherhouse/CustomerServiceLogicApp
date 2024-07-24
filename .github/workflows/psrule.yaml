@@ -19,7 +19,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Run PSRule analysis
-      uses: microsoft/ps-rule@main
+      uses: microsoft/ps-rule@latest
       with:
         inputType: 'repository'                                        # Optional. Determines the type of input to use for PSRule. 'repository or 'inputPath'                                          # Optional. The path PSRule will look for files to validate.
         modules: 'PSRule.Rules.Azure,PSRule.Rules.CAF'                                              # Optional. A comma separated list of modules to use for analysis.                                        # Optional. A path containing rules to use for analysis.
