@@ -34,8 +34,8 @@ jobs:
        with:
          inlineScript: |
           $profile = Get-AzWebAppPublishingProfile `
-              -ResourceGroupName ${{env.RESOURCE_GROUP_NAME}} `
-              -Name ${{env.LOGIC_APP_NAME}} `
+              -ResourceGroupName ${{vars.RESOURCE_GROUP_NAME}} `
+              -Name ${{vars.LOGIC_APP_NAME}} `
           $profile = $profile.Replace("`r", "").Replace("`n", "")
           Write-Output "::set-output name=profile::$profile"
          azPSVersion: latest
@@ -49,6 +49,6 @@ jobs:
        uses: Azure/functions-action@v1
        id: la
        with:
-        app-name: ${{env.LOGIC_APP_NAME}}
+        app-name: ${{vars.LOGIC_APP_NAME}}
         package: build-art/${{ github.run_id }}.zip
         publish-profile: ${{steps.laapp.outputs.profile}}
