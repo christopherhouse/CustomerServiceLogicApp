@@ -76,7 +76,7 @@ resource logicApp 'Microsoft.Web/sites@2023-01-01' = {
   location: region
   kind: 'functionapp,workflowapp'
   identity: {
-    type: 'UserAssigned'
+    type: 'SystemAssigned, UserAssigned'
     userAssignedIdentities: {
       '${uamiResourceId}': {}
     }
