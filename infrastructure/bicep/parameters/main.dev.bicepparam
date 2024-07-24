@@ -31,3 +31,4 @@ param tags = {
 }
 param tableDnsZoneResourceId = '/subscriptions/e1f57a36-4892-4716-9a3f-661432b39dbe/resourceGroups/bw-ais/providers/Microsoft.Network/privateDnsZones/privatelink.table.core.windows.net'
 param sharedResourceGroupName = 'BW-AIS'
+param serviceBusFullyQualifiedNamespace = 'bw-ais-loc-sb.servicebus.windows.net'

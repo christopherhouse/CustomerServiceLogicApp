@@ -156,3 +156,10 @@ type appServicePlanConfiguration = {
   zones: string[]
   resouceGroupName: string
 }
+
+@export()
+@description('Configuration for app settings')
+type appSettingType = {
+  name: string
+  value: string
+}

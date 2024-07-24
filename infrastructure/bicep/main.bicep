@@ -48,6 +48,8 @@ param aseResourceId string
 
 param sharedResourceGroupName string
 
+param serviceBusFullyQualifiedNamespace string
+
 // Base name
 var baseName = '${workloadName}-${environmentSuffix}'
 
@@ -106,6 +108,12 @@ module logicApp './modules/appService/logicApp/logicApp.bicep' = {
     aseResourceId: aseResourceId
     appServicePlanResourceId: appServicePlanResourceId
     sharedResourceGroupName: sharedResourceGroupName
+    customAppSettings: [
+      {
+        name: 'serviceBus__fullyQualifiedNamespace'
+        value: serviceBusFullyQualifiedNamespace
+      }
+    ]
   }
   dependsOn: [
     kvSecretsUser
