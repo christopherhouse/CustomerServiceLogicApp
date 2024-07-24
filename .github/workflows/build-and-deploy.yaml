@@ -8,9 +8,9 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Easy Zip Files
-        uses: vimtor/action-zip@v1
+        uses: vimtor/action-zip@v1.2
         with:
           dest: ${{ github.run_id }}.zip
           files: ./
