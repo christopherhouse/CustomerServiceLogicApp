@@ -61,6 +61,9 @@ var uamiKvSecretsUserAssignmentDeploymentName = '${uamiResourceName}-kv-secrets-
 var logicAppName = '${baseName}-la'
 var logicAppDeploymentName = '${logicAppName}-${deployment().name}'
 
+// Storage Account
+var storageAccountName = '${baseName}datasa'
+var storageAccountDeploymentName = '${storageAccountName}-${deployment().name}'
 
 module uami './modules/managedIdentity/userAssignedManagedIdentity.bicep' = {
   name: uamiDeploymentName
@@ -107,4 +110,31 @@ module logicApp './modules/appService/logicApp/logicApp.bicep' = {
   dependsOn: [
     kvSecretsUser
   ]
+}
+
+module data './modules/storage/privateStorageAccount.bicep' = {
+  name: storageAccountDeploymentName
+  params: {
+    tags: tags
+    blobDnsZoneId: blobDnsZoneResourceId
+    fileDnsZoneId: fileDnsZoneResourceId
+    keyVaultName: keyVaultName
+    queueDnsZoneId: queueDnsZoneResourceId
+    region: region
+    sharedResourceeGroupName: sharedResourceGroupName
+    storageAccountName: storageAccountName
+    storageConfiguration: {
+      sku: 'Standard_LRS'
+      accessTier: 'Hot'
+      addConnectionStringToKeyVault: true
+      fileShares: []
+      tables: [
+        'customersvcreqs'
+      ]
+      blobContainers: []
+    }
+    storageConnectionStringSecretName: '${storageAccountName}-cs'
+    subnetId: storageSubnetResourceId
+    tableDnsZoneId: tableDnsZoneResourceId
+  }
 }
