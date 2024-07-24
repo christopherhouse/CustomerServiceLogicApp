@@ -20,9 +20,10 @@ jobs:
       - name: Swap connection.json
         run: |
           ls -al ./logic-app/
-          # mv logic-app/connections.json logic-app/connections.json.bak
-          # mv logic-app/connections.dev.json logic-app/connections.json
-
+          mv logic-app/connections.json logic-app/connections.json.bak
+          mv logic-app/connections.dev.json logic-app/connections.json
+          ls -al ./logic-app/
+          
       - name: Easy Zip Files
         uses: vimtor/action-zip@v1.2
         with:
