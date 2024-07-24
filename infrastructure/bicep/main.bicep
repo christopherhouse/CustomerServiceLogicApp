@@ -132,6 +132,7 @@ module data './modules/storage/privateStorageAccount.bicep' = {
         'customersvcreqs'
       ]
       blobContainers: []
+      queues: []
     }
     storageConnectionStringSecretName: '${storageAccountName}-cs'
     subnetId: storageSubnetResourceId
