@@ -13,6 +13,7 @@
       "Settings": {
          "Runtime.ApplicationInsightTelemetryVersion": "v2"
       }
+    }
   },
   "extensionBundle": {
     "id": "Microsoft.Azure.Functions.ExtensionBundle.Workflows",
