@@ -2,34 +2,14 @@
     "definition": {
         "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
         "actions": {
-            "Get_Entity": {
-                "type": "ServiceProvider",
-                "inputs": {
-                    "parameters": {
-                        "tableName": "customersvcreqs",
-                        "partitionKey": "@triggerBody()?['requestId']",
-                        "rowKey": "@triggerBody()?['requestId']"
-                    },
-                    "serviceProviderConfiguration": {
-                        "connectionName": "azureTables",
-                        "operationId": "getEntity",
-                        "serviceProviderId": "/serviceProviders/azureTables"
-                    }
-                },
-                "runAfter": {}
-            },
             "Response": {
                 "type": "Response",
                 "kind": "Http",
                 "inputs": {
                     "statusCode": 200,
-                    "body": "@body('Get_Entity')"
+                    "body": "gooo"
                 },
-                "runAfter": {
-                    "Get_Entity": [
-                        "SUCCEEDED"
-                    ]
-                }
+                "runAfter": {}
             }
         },
         "contentVersion": "1.0.0.0",
