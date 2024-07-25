@@ -7,7 +7,7 @@
                 "kind": "Http",
                 "inputs": {
                     "statusCode": "@variables('statusCode')",
-                    "body": "@variables('response')"
+                    "body": "@triggerBody()"
                 },
                 "runAfter": {
                     "Catch": [
@@ -31,7 +31,7 @@
             "Try": {
                 "type": "Scope",
                 "actions": {
-                    "Get_Entity": {
+                    "Get_Status": {
                         "type": "ServiceProvider",
                         "inputs": {
                             "parameters": {
@@ -50,10 +50,10 @@
                         "type": "SetVariable",
                         "inputs": {
                             "name": "response",
-                            "value": "@body('Get_Entity')"
+                            "value": "@body('Get_Status')"
                         },
                         "runAfter": {
-                            "Get_Entity": [
+                            "Get_Status": [
                                 "SUCCEEDED"
                             ]
                         }
