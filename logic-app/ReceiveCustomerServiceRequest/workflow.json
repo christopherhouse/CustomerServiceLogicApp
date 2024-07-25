@@ -11,7 +11,8 @@
                 },
                 "runAfter": {
                     "catch": [
-                        "SUCCEEDED"
+                        "SUCCEEDED",
+                        "SKIPPED"
                     ]
                 }
             },
