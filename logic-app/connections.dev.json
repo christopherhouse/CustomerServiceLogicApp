@@ -27,7 +27,7 @@
             "id": "/serviceProviders/serviceBus"
         }
       },
-      "azureTables": {
+      "csrTable": {
         "parameterValues": {
           "tableStorageEndpoint": "@appsetting('azureTables_tableStorageEndpoint')",
           "authProvider": {

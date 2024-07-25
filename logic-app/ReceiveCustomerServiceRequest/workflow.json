@@ -85,7 +85,7 @@
                                 }
                             },
                             "serviceProviderConfiguration": {
-                                "connectionName": "azureTables",
+                                "connectionName": "csrTable",
                                 "operationId": "upsertEntity",
                                 "serviceProviderId": "/serviceProviders/azureTables"
                             }

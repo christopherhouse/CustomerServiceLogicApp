@@ -21,7 +21,7 @@
       },
       "displayName": "recvdTopic"
     },
-    "azureTables": {
+    "csrTable": {
       "parameterValues": {
         "tableStorageEndpoint": "@appsetting('azureTables_tableStorageEndpoint')",
         "authProvider": {
@@ -32,7 +32,7 @@
       "serviceProvider": {
         "id": "/serviceProviders/azureTables"
       },
-      "displayName": "tables"
+      "displayName": "csrTable"
     }
   }
 }

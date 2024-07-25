@@ -40,7 +40,7 @@
                                 "rowKey": "@triggerBody()?['requestId']"
                             },
                             "serviceProviderConfiguration": {
-                                "connectionName": "azureTables",
+                                "connectionName": "csrTable",
                                 "operationId": "getEntity",
                                 "serviceProviderId": "/serviceProviders/azureTables"
                             }

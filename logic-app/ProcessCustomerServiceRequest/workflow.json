@@ -18,7 +18,7 @@
                                 }
                             },
                             "serviceProviderConfiguration": {
-                                "connectionName": "azureTables",
+                                "connectionName": "csrTable",
                                 "operationId": "updateEntity",
                                 "serviceProviderId": "/serviceProviders/azureTables"
                             }
