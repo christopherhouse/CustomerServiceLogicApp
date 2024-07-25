@@ -113,6 +113,10 @@ module logicApp './modules/appService/logicApp/logicApp.bicep' = {
         name: 'serviceBus_fullyQualifiedNamespace'
         value: serviceBusFullyQualifiedNamespace
       }
+      {
+        name: 'serviceBus_credential'
+        value: 'managedIdentity'
+      }
     ]
   }
   dependsOn: [
