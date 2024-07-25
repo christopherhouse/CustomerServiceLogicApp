@@ -1,7 +1,7 @@
 {
   "managedApiConnections": {},
   "serviceProviderConnections": {
-      "serviceBus": {
+      "serviceBus-1": {
           "displayName": "sbConn",
           "parameterSetName": "ManagedServiceIdentity",
           "parameterValues": {
