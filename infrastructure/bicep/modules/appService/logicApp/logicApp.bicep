@@ -24,8 +24,6 @@ var storageAccountBaseName = '${toLower(replace(logicAppName, '-', ''))}sa'
 var storageAccountTrimmedName = length(storageAccountBaseName) > 24 ? substring(storageAccountBaseName, 0, 24) : storageAccountBaseName
 var storageAccountConnectionStringSecretName = '${logicAppName}-storage-connection-string'
 
-var keyVaultSecretsUserRoleId = '4633458b-17de-408a-b874-0445c86b69e6'
-
 var defaultAppSettings = [
   {
     name: 'APP_KIND'
@@ -70,16 +68,6 @@ var defaultAppSettings = [
 ]
 
 var appSettings = union(defaultAppSettings, customAppSettings)
-
-resource kvSecretsUserRole 'Microsoft.Authorization/roleDefinitions@2022-05-01-preview' existing = {
-  scope: subscription()
-  name: keyVaultSecretsUserRoleId
-}
-
-resource kv 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
-  name: keyVaultName
-  scope: resourceGroup(sharedResourceGroupName)
-}
 
 module kvsr '../../authorization/keyVaultSecretsUser.bicep' = {
   name: '${logicAppName}-kvrbac-${uniqueString(deployment().name)}'
