@@ -7,7 +7,27 @@
                 "kind": "Http",
                 "inputs": {
                     "statusCode": 200,
-                    "body": "gooo"
+                    "body": "@body('Get_Entity')"
+                },
+                "runAfter": {
+                    "Get_Entity": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Get_Entity": {
+                "type": "ServiceProvider",
+                "inputs": {
+                    "parameters": {
+                        "tableName": "customersvcreqs",
+                        "partitionKey": "@triggerBody()?['requestId']",
+                        "rowKey": "@triggerBody()?['requestId']"
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "azureTables",
+                        "operationId": "getEntity",
+                        "serviceProviderId": "/serviceProviders/azureTables"
+                    }
                 },
                 "runAfter": {}
             }
