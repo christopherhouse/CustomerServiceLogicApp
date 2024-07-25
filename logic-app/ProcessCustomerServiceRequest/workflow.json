@@ -80,5 +80,5 @@
             }
         }
     },
-    "kind": "Stateless"
+    "kind": "Stateful"
 }
