@@ -11,6 +11,16 @@
       },
       "displayName": "custSvcSb"
     },
+    "recvdTopic": {
+      "parameterValues": {
+        "connectionString": "@appsetting('serviceBus_11_connectionString')"
+      },
+      "parameterSetName": "connectionString",
+      "serviceProvider": {
+        "id": "/serviceProviders/serviceBus"
+      },
+      "displayName": "recvdTopic"
+    },
     "azureTables": {
       "parameterValues": {
         "tableStorageEndpoint": "@appsetting('azureTables_tableStorageEndpoint')",

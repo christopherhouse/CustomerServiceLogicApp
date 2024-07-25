@@ -12,8 +12,8 @@
                             "parameters": {
                                 "tableName": "customersvcreqs",
                                 "entity": {
-                                    "PartitionKey": "@{variables('runId')}",
-                                    "RowKey": "@{variables('runId')}",
+                                    "PartitionKey": "@{item()?['messageId']}",
+                                    "RowKey": "@{item()?['messageId']}",
                                     "status": "processing"
                                 }
                             },
@@ -22,25 +22,41 @@
                                 "operationId": "updateEntity",
                                 "serviceProviderId": "/serviceProviders/azureTables"
                             }
+                        },
+                        "runAfter": {
+                            "Compose": [
+                                "SUCCEEDED"
+                            ]
+                        }
+                    },
+                    "Compose": {
+                        "type": "Compose",
+                        "inputs": {
+                            "messageId": "@{item()?['messageId']}"
+                        }
+                    },
+                    "Send_message": {
+                        "type": "ServiceProvider",
+                        "inputs": {
+                            "parameters": {
+                                "entityName": "received-orders",
+                                "message": {
+                                    "contentData": "@item()?['contentData']",
+                                    "messageId": "@item()?['messageId']"
+                                }
+                            },
+                            "serviceProviderConfiguration": {
+                                "connectionName": "recvdTopic",
+                                "operationId": "sendMessage",
+                                "serviceProviderId": "/serviceProviders/serviceBus"
+                            }
+                        },
+                        "runAfter": {
+                            "Update_Entity": [
+                                "SUCCEEDED"
+                            ]
                         }
                     }
-                },
-                "runAfter": {
-                    "Initialize_variable": [
-                        "SUCCEEDED"
-                    ]
-                }
-            },
-            "Initialize_variable": {
-                "type": "InitializeVariable",
-                "inputs": {
-                    "variables": [
-                        {
-                            "name": "runId",
-                            "type": "string",
-                            "value": "@item()?['correlationId']"
-                        }
-                    ]
                 },
                 "runAfter": {}
             }
