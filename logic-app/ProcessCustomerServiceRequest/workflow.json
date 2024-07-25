@@ -1,7 +1,50 @@
 {
     "definition": {
         "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
-        "actions": {},
+        "actions": {
+            "For_each": {
+                "type": "foreach",
+                "foreach": "@triggerOutputs()?['body']",
+                "actions": {
+                    "Initialize_variable": {
+                        "type": "InitializeVariable",
+                        "inputs": {
+                            "variables": [
+                                {
+                                    "name": "runId",
+                                    "type": "string",
+                                    "value": "@item()?['correlationId']"
+                                }
+                            ]
+                        }
+                    },
+                    "Update_Entity": {
+                        "type": "ServiceProvider",
+                        "inputs": {
+                            "parameters": {
+                                "tableName": "customersvcreqs",
+                                "entity": {
+                                    "PartitionKey": "@{variables('runId')}",
+                                    "RowKey": "@{variables('runId')}",
+                                    "status": "processing"
+                                }
+                            },
+                            "serviceProviderConfiguration": {
+                                "connectionName": "azureTables",
+                                "operationId": "updateEntity",
+                                "serviceProviderId": "/serviceProviders/azureTables"
+                            }
+                        },
+                        "runAfter": {
+                            "Initialize_variable": [
+                                "SUCCEEDED"
+                            ]
+                        }
+                    }
+                },
+                "runAfter": {}
+            }
+        },
         "contentVersion": "1.0.0.0",
         "outputs": {},
         "triggers": {
