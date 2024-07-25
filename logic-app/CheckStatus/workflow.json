@@ -88,6 +88,18 @@
                                 "result": "error"
                             }
                         }
+                    },
+                    "Set_variable_statusCode_(error)": {
+                        "type": "SetVariable",
+                        "inputs": {
+                            "name": "statusCode",
+                            "value": 500
+                        },
+                        "runAfter": {
+                            "Set_variable_response_(error)": [
+                                "SUCCEEDED"
+                            ]
+                        }
                     }
                 },
                 "runAfter": {
