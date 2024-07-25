@@ -6,18 +6,6 @@
                 "type": "foreach",
                 "foreach": "@triggerOutputs()?['body']",
                 "actions": {
-                    "Initialize_variable": {
-                        "type": "InitializeVariable",
-                        "inputs": {
-                            "variables": [
-                                {
-                                    "name": "runId",
-                                    "type": "string",
-                                    "value": "@item()?['correlationId']"
-                                }
-                            ]
-                        }
-                    },
                     "Update_Entity": {
                         "type": "ServiceProvider",
                         "inputs": {
@@ -34,13 +22,25 @@
                                 "operationId": "updateEntity",
                                 "serviceProviderId": "/serviceProviders/azureTables"
                             }
-                        },
-                        "runAfter": {
-                            "Initialize_variable": [
-                                "SUCCEEDED"
-                            ]
                         }
                     }
+                },
+                "runAfter": {
+                    "Initialize_variable": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Initialize_variable": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "runId",
+                            "type": "string",
+                            "value": "@item()?['correlationId']"
+                        }
+                    ]
                 },
                 "runAfter": {}
             }
