@@ -69,6 +69,32 @@
                                 "type": "none"
                             }
                         }
+                    },
+                    "Insert_Status_Record": {
+                        "type": "ServiceProvider",
+                        "inputs": {
+                            "parameters": {
+                                "tableName": "customersvcreqs",
+                                "entity": {
+                                    "PartitionKey": "@{variables('workflowRunId')}",
+                                    "RowKey": "@{variables('workflowRunId')}",
+                                    "customerId": "@{triggerBody()?['customerId']}",
+                                    "productId": "@{triggerBody()?['productId']}",
+                                    "problemDescription": "@{triggerBody()?['problemDescription']}",
+                                    "status": "received"
+                                }
+                            },
+                            "serviceProviderConfiguration": {
+                                "connectionName": "azureTables",
+                                "operationId": "upsertEntity",
+                                "serviceProviderId": "/serviceProviders/azureTables"
+                            }
+                        },
+                        "runAfter": {
+                            "Send_message": [
+                                "SUCCEEDED"
+                            ]
+                        }
                     }
                 },
                 "runAfter": {

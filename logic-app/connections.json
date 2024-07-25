@@ -10,6 +10,19 @@
         "id": "/serviceProviders/serviceBus"
       },
       "displayName": "custSvcSb"
+    },
+    "azureTables": {
+      "parameterValues": {
+        "tableStorageEndpoint": "@appsetting('azureTables_tableStorageEndpoint')",
+        "authProvider": {
+          "Type": "ManagedServiceIdentity"
+        }
+      },
+      "parameterSetName": "ManagedServiceIdentity",
+      "serviceProvider": {
+        "id": "/serviceProviders/azureTables"
+      },
+      "displayName": "tables"
     }
   }
 }

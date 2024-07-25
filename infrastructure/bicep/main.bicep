@@ -117,10 +117,15 @@ module logicApp './modules/appService/logicApp/logicApp.bicep' = {
         name: 'serviceBus_credential'
         value: 'managedIdentity'
       }
+      {
+        name: 'azureTables_tableStorageEndpoint'
+        value: 'https://${storageAccountName}.table${environment().suffixes.storage}'
+      }
     ]
   }
   dependsOn: [
     kvSecretsUser
+    data
   ]
 }
 

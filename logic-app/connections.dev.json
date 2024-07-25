@@ -13,6 +13,19 @@
           "serviceProvider": {
               "id": "/serviceProviders/serviceBus"
           }
+      },
+      "azureTables": {
+        "parameterValues": {
+          "tableStorageEndpoint": "@appsetting('azureTables_tableStorageEndpoint')",
+          "authProvider": {
+            "Type": "ManagedServiceIdentity"
+          }
+        },
+        "parameterSetName": "ManagedServiceIdentity",
+        "serviceProvider": {
+          "id": "/serviceProviders/azureTables"
+        },
+        "displayName": "tables"
       }
   }
 }
