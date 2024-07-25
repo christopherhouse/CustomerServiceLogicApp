@@ -54,7 +54,7 @@ var defaultAppSettings = [
     value: '1'
   }
   {
-    name: 'vnetrouteallenabled'
+    name: 'WEBSITE_VNET_ROUTE_ALL'
     value: '1'
   }
   {

@@ -21,7 +21,7 @@ var tablePrivateEndpointName = '${storageAccountName}-table-pe'
 var blobPrivateEndpointDeploymentName = '${blobPrivateEndpointName}-${deployment().name}'
 var filePrivateEndpointDeploymentName = '${filePrivateEndpointName}-${deployment().name}'
 var queuePrivateEndpointDeploymentName = '${queuePrivateEndpointName}-${deployment().name}'
-var tablePrivateEndpointDeploymentName = '${tablePrivateEndpointName}-${deployment().name}'
+var tablePrivateEndpointDeploymentName = '${tablePrivateEndpointName}-${deployment().name}')
 
 resource storage 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: storageAccountName
