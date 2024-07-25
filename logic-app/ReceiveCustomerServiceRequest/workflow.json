@@ -63,6 +63,9 @@
                                 "connectionName": "serviceBus-1",
                                 "operationId": "sendMessage",
                                 "serviceProviderId": "/serviceProviders/serviceBus"
+                            },
+                            "retryPolicy": {
+                                "type": "none"
                             }
                         }
                     }
