@@ -110,7 +110,7 @@ module logicApp './modules/appService/logicApp/logicApp.bicep' = {
     sharedResourceGroupName: sharedResourceGroupName
     customAppSettings: [
       {
-        name: 'serviceBus__fullyQualifiedNamespace'
+        name: 'serviceBus_fullyQualifiedNamespace'
         value: serviceBusFullyQualifiedNamespace
       }
     ]
