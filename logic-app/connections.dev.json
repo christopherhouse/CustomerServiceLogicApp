@@ -6,8 +6,7 @@
           "parameterSetName": "ManagedServiceIdentity",
           "parameterValues": {
               "authProvider": {
-                  "Type": "ManagedServiceIdentity",
-                  "clientId": "b774bd3b-1aaf-4751-b07e-b3f7b9c3b760"
+                  "Type": "ManagedServiceIdentity"
               },
               "fullyQualifiedNamespace": "@appsetting('serviceBus_fullyQualifiedNamespace')"
           },
