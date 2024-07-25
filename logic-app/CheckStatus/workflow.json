@@ -7,7 +7,7 @@
                 "kind": "Http",
                 "inputs": {
                     "statusCode": "@variables('statusCode')",
-                    "body": "@triggerBody()"
+                    "body": "@variables('response')"
                 },
                 "runAfter": {
                     "Catch": [
