@@ -18,23 +18,56 @@ param aseResourceId string
 param appServicePlanResourceId string
 param tags object
 param sharedResourceGroupName string
+param customAppSettings udt.appSettingType[] = []
 
 var storageAccountBaseName = '${toLower(replace(logicAppName, '-', ''))}sa'
 var storageAccountTrimmedName = length(storageAccountBaseName) > 24 ? substring(storageAccountBaseName, 0, 24) : storageAccountBaseName
 var storageAccountConnectionStringSecretName = '${logicAppName}-storage-connection-string'
 
-var keyVaultSecretsUserRoleId = '4633458b-17de-408a-b874-0445c86b69e6'
+var defaultAppSettings = [
+  {
+    name: 'APP_KIND'
+    value: 'workflowapp'
+  }
+  {
+    name: 'AzureWebJobsStorage'
+    value: '@Microsoft.KeyVault(SecretUri=${storage.outputs.connectionStringSecretUri})'
+  }
+  {
+    name: 'FUNCTIONS_WORKER_RUNTIME'
+    value: 'node'
+  }
+  {
+    name: 'FUNCTIONS_EXTENSION_VERSION'
+    value: '~4'
+  }
+  {
+    name: 'WEBSITE_CONTENTZUREFILESCONNECTIONSTRING'
+    value: '@Microsoft.KeyVault(SecretUri=${storage.outputs.connectionStringSecretUri})'
+  }
+  {
+    name: 'WEBSITE_NODE_DEFAULT_VERSION'
+    value: '~20'
+  }
+  {
+    name: 'WEBSITE_CONTENTOVERVNET'
+    value: '1'
+  }
+  {
+    name: 'WEBSITE_VNET_ROUTE_ALL'
+    value: '1'
+  }
+  {
+    name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+    value: '@Microsoft.KeyVault(SecretUri=${appInsightsInstrumentationKeySecretUri})'
+  }
+  {
+    name: 'APPINSIGHTS_CONNECTION_STRING'
+    value: '@Microsoft.KeyVault(SecretUri=${appInsightsConnectionStringSecretUri})'
+  }
+]
 
-
-resource kvSecretsUserRole 'Microsoft.Authorization/roleDefinitions@2022-05-01-preview' existing = {
-  scope: subscription()
-  name: keyVaultSecretsUserRoleId
-}
-
-resource kv 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
-  name: keyVaultName
-  scope: resourceGroup(sharedResourceGroupName)
-}
+var appSettings = union(defaultAppSettings, customAppSettings)
 
 module kvsr '../../authorization/keyVaultSecretsUser.bicep' = {
   name: '${logicAppName}-kvrbac-${uniqueString(deployment().name)}'
@@ -74,9 +107,10 @@ module storage '../../storage/privateStorageAccount.bicep' = {
 resource logicApp 'Microsoft.Web/sites@2023-01-01' = {
   name: logicAppName
   location: region
+  tags: tags
   kind: 'functionapp,workflowapp'
   identity: {
-    type: 'UserAssigned'
+    type: 'SystemAssigned, UserAssigned'
     userAssignedIdentities: {
       '${uamiResourceId}': {}
     }
@@ -89,25 +123,12 @@ resource logicApp 'Microsoft.Web/sites@2023-01-01' = {
     }
     siteConfig: {
       alwaysOn: true
+      minTlsVersion: '1.2'
+      http20Enabled: true
+      appSettings: appSettings
     }
-    publicNetworkAccess: 'Disabled'
-  }
-}
-
-resource config 'Microsoft.Web/sites/config@2023-01-01' = {
-  name: 'appsettings'
-  parent: logicApp
-  properties: {
-    APP_KIND: 'workflowapp'
-    AzureWebJobsStorage: '@Microsoft.KeyVault(SecretUri=${storage.outputs.connectionStringSecretUri})'
-    FUNCTIONS_WORKER_RUNTIME: 'node'
-    FUNCTIONS_EXTENSION_VERSION: '~4'
-    WEBSITE_CONTENTZUREFILESCONNECTIONSTRING: '@Microsoft.KeyVault(SecretUri=${storage.outputs.connectionStringSecretUri})'
-    WEBSITE_NODE_DEFAULT_VERSION: '~18'
-    WEBSITE_CONTENTOVERVNET: '1'
-    vnetrouteallenabled: '1'
-    APPINSIGHTS_INSTRUMENTATIONKEY: '@Microsoft.KeyVault(SecretUri=${appInsightsInstrumentationKeySecretUri})'
-    APPINSIGHTS_CONNECTION_STRING: '@Microsoft.KeyVault(SecretUri=${appInsightsConnectionStringSecretUri})'
+    publicNetworkAccess: 'Enabled'
+    httpsOnly: true
   }
 }
 

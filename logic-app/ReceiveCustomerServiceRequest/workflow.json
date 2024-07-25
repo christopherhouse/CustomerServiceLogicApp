@@ -7,10 +7,10 @@
                 "kind": "Http",
                 "inputs": {
                     "statusCode": "@variables('statusCode')",
-                    "body": "@outputs('Compose_Response')"
+                    "body": "@variables('response')"
                 },
                 "runAfter": {
-                    "Compose_Response": [
+                    "catch": [
                         "SUCCEEDED"
                     ]
                 }
@@ -45,18 +45,7 @@
                     ]
                 }
             },
-            "Compose_Response": {
-                "type": "Compose",
-                "inputs": {
-                    "requestId": "@{variables('workflowRunId')}"
-                },
-                "runAfter": {
-                    "Scope": [
-                        "SUCCEEDED"
-                    ]
-                }
-            },
-            "Scope": {
+            "try": {
                 "type": "Scope",
                 "actions": {
                     "Send_message": {
@@ -71,12 +60,61 @@
                                 }
                             },
                             "serviceProviderConfiguration": {
-                                "connectionName": "serviceBus",
+                                "connectionName": "serviceBus-1",
                                 "operationId": "sendMessage",
                                 "serviceProviderId": "/serviceProviders/serviceBus"
+                            },
+                            "retryPolicy": {
+                                "type": "none"
                             }
                         }
                     }
+                },
+                "runAfter": {
+                    "Initialize_variable_response": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "catch": {
+                "type": "Scope",
+                "actions": {
+                    "Set_variable_statusCode_(error)": {
+                        "type": "SetVariable",
+                        "inputs": {
+                            "name": "statusCode",
+                            "value": 500
+                        }
+                    },
+                    "Set_variable_response_(error)": {
+                        "type": "SetVariable",
+                        "inputs": {
+                            "name": "response",
+                            "value": "{\n  \"message\": \"error submitting the request to the queue\"\n}"
+                        },
+                        "runAfter": {
+                            "Set_variable_statusCode_(error)": [
+                                "SUCCEEDED"
+                            ]
+                        }
+                    }
+                },
+                "runAfter": {
+                    "try": [
+                        "FAILED"
+                    ]
+                }
+            },
+            "Initialize_variable_response": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "response",
+                            "type": "string",
+                            "value": "{\n  \"requestId\": \"@{variables('workflowRunId')}\"\n}"
+                        }
+                    ]
                 },
                 "runAfter": {
                     "Initialize_variable_workflowRunId": [

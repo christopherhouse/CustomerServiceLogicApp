@@ -48,6 +48,8 @@ param aseResourceId string
 
 param sharedResourceGroupName string
 
+param serviceBusFullyQualifiedNamespace string
+
 // Base name
 var baseName = '${workloadName}-${environmentSuffix}'
 
@@ -62,7 +64,7 @@ var logicAppName = '${baseName}-la'
 var logicAppDeploymentName = '${logicAppName}-${deployment().name}'
 
 // Storage Account
-var storageAccountName = replace(toLower('${baseName}datasa'), '-', '')
+var storageAccountName = 'cmhbwcustsvcdatasa'
 var storageAccountDeploymentName = '${storageAccountName}-${deployment().name}'
 
 module uami './modules/managedIdentity/userAssignedManagedIdentity.bicep' = {
@@ -106,6 +108,16 @@ module logicApp './modules/appService/logicApp/logicApp.bicep' = {
     aseResourceId: aseResourceId
     appServicePlanResourceId: appServicePlanResourceId
     sharedResourceGroupName: sharedResourceGroupName
+    customAppSettings: [
+      {
+        name: 'serviceBus_fullyQualifiedNamespace'
+        value: serviceBusFullyQualifiedNamespace
+      }
+      {
+        name: 'serviceBus_credential'
+        value: 'managedIdentity'
+      }
+    ]
   }
   dependsOn: [
     kvSecretsUser
