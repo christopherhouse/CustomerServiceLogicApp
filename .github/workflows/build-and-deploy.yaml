@@ -1,7 +1,9 @@
 name: 'Build and Deploy Logic App'
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - feature/*
   workflow_dispatch:
 
 jobs:
