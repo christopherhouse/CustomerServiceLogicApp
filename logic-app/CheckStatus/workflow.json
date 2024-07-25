@@ -6,9 +6,111 @@
                 "type": "Response",
                 "kind": "Http",
                 "inputs": {
-                    "statusCode": 200
+                    "statusCode": "@variables('statusCode')",
+                    "body": "@variables('response')"
+                },
+                "runAfter": {
+                    "Catch": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Initialize_variable_statusCode": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "statusCode",
+                            "type": "integer",
+                            "value": 404
+                        }
+                    ]
                 },
                 "runAfter": {}
+            },
+            "Try": {
+                "type": "Scope",
+                "actions": {
+                    "Get_Entity": {
+                        "type": "ServiceProvider",
+                        "inputs": {
+                            "parameters": {
+                                "tableName": "customersvcreqs",
+                                "partitionKey": "@triggerBody()?['requestId']",
+                                "rowKey": "@triggerBody()?['requestId']"
+                            },
+                            "serviceProviderConfiguration": {
+                                "connectionName": "azureTables",
+                                "operationId": "getEntity",
+                                "serviceProviderId": "/serviceProviders/azureTables"
+                            }
+                        }
+                    },
+                    "Set_variable_response": {
+                        "type": "SetVariable",
+                        "inputs": {
+                            "name": "response",
+                            "value": "@body('Get_Entity')"
+                        },
+                        "runAfter": {
+                            "Get_Entity": [
+                                "SUCCEEDED"
+                            ]
+                        }
+                    },
+                    "Set_variable_statusCode": {
+                        "type": "SetVariable",
+                        "inputs": {
+                            "name": "statusCode",
+                            "value": 200
+                        },
+                        "runAfter": {
+                            "Set_variable_response": [
+                                "SUCCEEDED"
+                            ]
+                        }
+                    }
+                },
+                "runAfter": {
+                    "Initialize_variable_response": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Catch": {
+                "type": "Scope",
+                "actions": {
+                    "Set_variable_response_(error)": {
+                        "type": "SetVariable",
+                        "inputs": {
+                            "name": "response",
+                            "value": {
+                                "result": "error"
+                            }
+                        }
+                    }
+                },
+                "runAfter": {
+                    "Try": [
+                        "FAILED"
+                    ]
+                }
+            },
+            "Initialize_variable_response": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "response",
+                            "type": "object"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Initialize_variable_statusCode": [
+                        "SUCCEEDED"
+                    ]
+                }
             }
         },
         "contentVersion": "1.0.0.0",
