@@ -36,8 +36,8 @@
                         "inputs": {
                             "parameters": {
                                 "tableName": "customersvcreqs",
-                                "partitionKey": "@triggerBody()?['requestId']",
-                                "rowKey": "@triggerBody()?['requestId']"
+                                "partitionKey": "08584785445893660685228184275CU00",
+                                "rowKey": "08584785445893660685228184275CU00"
                             },
                             "serviceProviderConfiguration": {
                                 "connectionName": "csrTable",
