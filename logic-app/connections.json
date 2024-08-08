@@ -1,5 +1,4 @@
 {
-  "managedApiConnections": {},
   "serviceProviderConnections": {
     "serviceBus-1": {
       "parameterValues": {

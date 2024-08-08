@@ -1,0 +1,164 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Initialize_variable_-_confirmationNumber": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "confirmationNumber",
+                            "type": "string",
+                            "value": "@workflow()['run']['name']"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Initialize_variable_statusCode": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Initialize_variable_statusCode": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "statusCode",
+                            "type": "integer",
+                            "value": 200
+                        }
+                    ]
+                },
+                "runAfter": {}
+            },
+            "Initialize_variable_-_responseBody": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "responseBody",
+                            "type": "object"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Initialize_variable_-_confirmationNumber": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Try": {
+                "type": "Scope",
+                "actions": {
+                    "Set_variable_-_responseBody_(success)": {
+                        "type": "SetVariable",
+                        "inputs": {
+                            "name": "responseBody",
+                            "value": {
+                                "confirmationNumber": "@{variables('confirmationNumber')}"
+                            }
+                        },
+                        "runAfter": {
+                            "Send_message": [
+                                "SUCCEEDED"
+                            ]
+                        }
+                    },
+                    "Send_message": {
+                        "type": "ServiceProvider",
+                        "inputs": {
+                            "parameters": {
+                                "entityName": "received-orders",
+                                "message": {
+                                    "contentType": "application/json",
+                                    "userProperties": {
+                                        "confirmationNumber": "@{variables('confirmationNumber')}"
+                                    }
+                                }
+                            },
+                            "serviceProviderConfiguration": {
+                                "connectionName": "serviceBus-1",
+                                "operationId": "sendMessage",
+                                "serviceProviderId": "/serviceProviders/serviceBus"
+                            }
+                        },
+                        "runAfter": {
+                            "X12_Decode": [
+                                "SUCCEEDED"
+                            ]
+                        }
+                    },
+                    "X12_Decode": {
+                        "type": "X12Decode",
+                        "inputs": {
+                            "messageToDecode": "@triggerBody()"
+                        }
+                    }
+                },
+                "runAfter": {
+                    "Initialize_variable_-_responseBody": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Catch": {
+                "type": "Scope",
+                "actions": {
+                    "Set_variable_-_statusCode_(error)": {
+                        "type": "SetVariable",
+                        "inputs": {
+                            "name": "statusCode",
+                            "value": 500
+                        }
+                    },
+                    "Set_variable_-_responseBody_(error)": {
+                        "type": "SetVariable",
+                        "inputs": {
+                            "name": "responseBody",
+                            "value": {
+                                "message": "An error was encountered processing the purchase order, please ensure the payload is a valid X12 850 document"
+                            }
+                        },
+                        "runAfter": {
+                            "Set_variable_-_statusCode_(error)": [
+                                "SUCCEEDED"
+                            ]
+                        }
+                    }
+                },
+                "runAfter": {
+                    "Try": [
+                        "FAILED"
+                    ]
+                }
+            },
+            "Response": {
+                "type": "Response",
+                "kind": "Http",
+                "inputs": {
+                    "statusCode": "@variables('statusCode')",
+                    "body": "@variables('responseBody')"
+                },
+                "runAfter": {
+                    "Catch": [
+                        "SUCCEEDED",
+                        "SKIPPED"
+                    ]
+                }
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "triggers": {
+            "When_a_HTTP_request_is_received": {
+                "type": "Request",
+                "kind": "Http",
+                "inputs": {
+                    "method": "POST"
+                }
+            }
+        }
+    },
+    "kind": "Stateful"
+}

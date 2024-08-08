@@ -1,0 +1,335 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Parse_JSON": {
+                "type": "ParseJson",
+                "inputs": {
+                    "content": "@triggerBody()?['contentData']",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "interchange": {
+                                "type": "object",
+                                "properties": {
+                                    "functionalGroups": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "gsProperties": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "GS1": {
+                                                            "type": "string"
+                                                        },
+                                                        "GS2": {
+                                                            "type": "string"
+                                                        },
+                                                        "GS3": {
+                                                            "type": "string"
+                                                        },
+                                                        "GS4": {
+                                                            "type": "string"
+                                                        },
+                                                        "GS5": {
+                                                            "type": "string"
+                                                        },
+                                                        "GS6": {
+                                                            "type": "string"
+                                                        },
+                                                        "GS7": {
+                                                            "type": "string"
+                                                        },
+                                                        "GS8": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                },
+                                                "geProperties": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "GE1": {
+                                                            "type": "string"
+                                                        },
+                                                        "GE2": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                },
+                                                "transactionSets": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "stProperties": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "ST1": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "ST2": {
+                                                                        "type": "string"
+                                                                    }
+                                                                }
+                                                            },
+                                                            "seProperties": {
+                                                                "type": "object",
+                                                                "properties": {}
+                                                            },
+                                                            "transactionSetContent": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "$content-type": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "$content": {
+                                                                        "type": "string"
+                                                                    }
+                                                                }
+                                                            },
+                                                            "transactionSetControlNumber": {
+                                                                "type": "string"
+                                                            },
+                                                            "transactionSetErrors": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "errorCode": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "errorDescription": {
+                                                                            "type": "string"
+                                                                        }
+                                                                    },
+                                                                    "required": [
+                                                                        "errorCode",
+                                                                        "errorDescription"
+                                                                    ]
+                                                                }
+                                                            },
+                                                            "isFailedTransactionSet": {
+                                                                "type": "boolean"
+                                                            },
+                                                            "messageType": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "stProperties",
+                                                            "seProperties",
+                                                            "transactionSetContent",
+                                                            "transactionSetControlNumber",
+                                                            "transactionSetErrors",
+                                                            "isFailedTransactionSet",
+                                                            "messageType"
+                                                        ]
+                                                    }
+                                                },
+                                                "functionalGroupControlNumber": {
+                                                    "type": "string"
+                                                },
+                                                "isFailedFunctionalGroup": {
+                                                    "type": "boolean"
+                                                }
+                                            },
+                                            "required": [
+                                                "gsProperties",
+                                                "geProperties",
+                                                "transactionSets",
+                                                "functionalGroupControlNumber",
+                                                "isFailedFunctionalGroup"
+                                            ]
+                                        }
+                                    },
+                                    "isaProperties": {
+                                        "type": "object",
+                                        "properties": {
+                                            "ISA1": {
+                                                "type": "string"
+                                            },
+                                            "ISA2": {
+                                                "type": "string"
+                                            },
+                                            "ISA3": {
+                                                "type": "string"
+                                            },
+                                            "ISA4": {
+                                                "type": "string"
+                                            },
+                                            "ISA5": {
+                                                "type": "string"
+                                            },
+                                            "ISA6": {
+                                                "type": "string"
+                                            },
+                                            "ISA7": {
+                                                "type": "string"
+                                            },
+                                            "ISA8": {
+                                                "type": "string"
+                                            },
+                                            "ISA9": {
+                                                "type": "string"
+                                            },
+                                            "ISA10": {
+                                                "type": "string"
+                                            },
+                                            "ISA11": {
+                                                "type": "string"
+                                            },
+                                            "ISA12": {
+                                                "type": "string"
+                                            },
+                                            "ISA13": {
+                                                "type": "string"
+                                            },
+                                            "ISA14": {
+                                                "type": "string"
+                                            },
+                                            "ISA15": {
+                                                "type": "string"
+                                            },
+                                            "ISA16": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "ieaProperties": {
+                                        "type": "object",
+                                        "properties": {
+                                            "IEA1": {
+                                                "type": "string"
+                                            },
+                                            "IEA2": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "isaSegment": {
+                                        "type": "string"
+                                    },
+                                    "generatedTechnicalAcknowledgement": {
+                                        "type": "object",
+                                        "properties": {
+                                            "tA101": {
+                                                "type": "string"
+                                            },
+                                            "tA102": {
+                                                "type": "string"
+                                            },
+                                            "tA103": {
+                                                "type": "string"
+                                            },
+                                            "tA104": {
+                                                "type": "string"
+                                            },
+                                            "tA105": {
+                                                "type": "string"
+                                            },
+                                            "content": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "$content-type": {
+                                                        "type": "string"
+                                                    },
+                                                    "$content": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "interchangeControlNumber": {
+                                        "type": "string"
+                                    },
+                                    "delimiterSetProperties": {
+                                        "type": "object",
+                                        "properties": {
+                                            "componentSeparator": {
+                                                "type": "integer"
+                                            },
+                                            "dataElementSeparator": {
+                                                "type": "integer"
+                                            },
+                                            "repetitionSeparator": {
+                                                "type": "integer"
+                                            },
+                                            "replacementCharacter": {
+                                                "type": "integer"
+                                            },
+                                            "segmentTerminator": {
+                                                "type": "integer"
+                                            },
+                                            "segmentTerminatorSuffix": {
+                                                "type": "string"
+                                            },
+                                            "escapeCharacter": {
+                                                "type": "integer"
+                                            },
+                                            "decimalPointIndicator": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    },
+                                    "agreement": {
+                                        "type": "object",
+                                        "properties": {
+                                            "senderPartnerName": {
+                                                "type": "string"
+                                            },
+                                            "receiverPartnerName": {
+                                                "type": "string"
+                                            },
+                                            "senderQualifier": {
+                                                "type": "string"
+                                            },
+                                            "senderIdentifier": {
+                                                "type": "string"
+                                            },
+                                            "receiverQualifier": {
+                                                "type": "string"
+                                            },
+                                            "receiverIdentifier": {
+                                                "type": "string"
+                                            },
+                                            "agreementName": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "isFailedInterchange": {
+                                        "type": "boolean"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "runAfter": {}
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "triggers": {
+            "When_messages_are_available_in_a_topic": {
+                "type": "ServiceProvider",
+                "inputs": {
+                    "parameters": {
+                        "topicName": "received-orders",
+                        "subscriptionName": "all-messages",
+                        "isSessionsEnabled": false
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "serviceBus-1",
+                        "operationId": "receiveTopicMessages",
+                        "serviceProviderId": "/serviceProviders/serviceBus"
+                    }
+                },
+                "splitOn": "@triggerOutputs()?['body']"
+            }
+        }
+    },
+    "kind": "Stateful"
+}

@@ -119,7 +119,7 @@ module logicApp './modules/appService/logicApp/logicApp.bicep' = {
       }
       {
         name: 'azureTables_tableStorageEndpoint'
-        value: 'https://${storageAccountName}.table.${environment().suffixes.storage}'
+        value: data.outputs.tableEndpoint
       }
     ]
   }

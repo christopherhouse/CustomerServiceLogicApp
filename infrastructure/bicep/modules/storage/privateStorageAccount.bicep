@@ -155,3 +155,4 @@ module blobSecret '../keyVault/keyVaultSecret.bicep' = if (length(storageConnect
 output id string = storage.id
 output name string = storage.name
 output connectionStringSecretUri string = blobSecret.outputs.secretUri
+output tableEndpoint string = storage.properties.primaryEndpoints.table
