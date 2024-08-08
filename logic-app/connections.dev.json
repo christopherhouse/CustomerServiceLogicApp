@@ -27,18 +27,15 @@
             "id": "/serviceProviders/serviceBus"
         }
       },
-      "csrTable": {
+      "sql-1": {
         "parameterValues": {
-          "tableStorageEndpoint": "@appsetting('azureTables_tableStorageEndpoint')",
-          "authProvider": {
-            "Type": "ManagedServiceIdentity"
-          }
+          "connectionString": "@appsetting('sql_11_connectionString')"
         },
-        "parameterSetName": "ManagedServiceIdentity",
+        "parameterSetName": "connectionString",
         "serviceProvider": {
-          "id": "/serviceProviders/azureTables"
+          "id": "/serviceProviders/sql"
         },
-        "displayName": "tables"
+        "displayName": "custSvcSql"
       }
   }
 }
