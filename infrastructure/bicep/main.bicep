@@ -121,6 +121,10 @@ module logicApp './modules/appService/logicApp/logicApp.bicep' = {
         name: 'azureTables_tableStorageEndpoint'
         value: data.outputs.tableEndpoint
       }
+      {
+        name: 'sql_11_connectionstring'
+        value: '@Microsoft.KeyVault(SecretUri=https://${keyVaultName}${environment().suffixes.keyvaultDns}/secrets/sqlConnectionString)'
+      }
     ]
   }
   dependsOn: [

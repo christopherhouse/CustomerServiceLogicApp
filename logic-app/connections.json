@@ -31,6 +31,5 @@
       "displayName": "custSvcSql"
     }
   },
-  "managedApiConnections": {
-  }
+  "managedApiConnections": {}
 }
