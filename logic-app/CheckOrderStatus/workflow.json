@@ -1,0 +1,131 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Initialize_variable_-_customerNumber": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "customerNumber",
+                            "type": "string",
+                            "value": "@triggerOutputs()?['queries']?['customerNumber']"
+                        }
+                    ]
+                },
+                "runAfter": {}
+            },
+            "Initialize_variable_-_orderNumber": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "orderNumber",
+                            "type": "string",
+                            "value": "@triggerOutputs()?['queries']?['orderNumber']"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Initialize_variable_-_customerNumber": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Get_rows": {
+                "type": "ServiceProvider",
+                "inputs": {
+                    "parameters": {
+                        "tableName": "[dbo].[OrderHeader]",
+                        "columnValuesForWhereCondition": {
+                            "OrderNumber": "@{variables('orderNumber')}",
+                            "CustomerNumber": "@{variables('customerNumber')}"
+                        }
+                    },
+                    "serviceProviderConfiguration": {
+                        "connectionName": "sql-1",
+                        "operationId": "getRows",
+                        "serviceProviderId": "/serviceProviders/sql"
+                    }
+                },
+                "runAfter": {
+                    "Initialize_variable_-_statusCode": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Response": {
+                "type": "Response",
+                "kind": "Http",
+                "inputs": {
+                    "statusCode": "@variables('statusCode')",
+                    "body": "@body('Get_rows')"
+                },
+                "runAfter": {
+                    "Condition": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Initialize_variable_-_statusCode": {
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "statusCode",
+                            "type": "integer",
+                            "value": 200
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Initialize_variable_-_orderNumber": [
+                        "SUCCEEDED"
+                    ]
+                }
+            },
+            "Condition": {
+                "type": "If",
+                "expression": {
+                    "and": [
+                        {
+                            "equals": [
+                                "@empty(body('Get_rows'))",
+                                true
+                            ]
+                        }
+                    ]
+                },
+                "actions": {
+                    "Set_variable_-_statusCode_(404)": {
+                        "type": "SetVariable",
+                        "inputs": {
+                            "name": "statusCode",
+                            "value": 404
+                        }
+                    }
+                },
+                "else": {
+                    "actions": {}
+                },
+                "runAfter": {
+                    "Get_rows": [
+                        "SUCCEEDED"
+                    ]
+                }
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "triggers": {
+            "When_a_HTTP_request_is_received": {
+                "type": "Request",
+                "kind": "Http",
+                "inputs": {
+                    "method": "GET"
+                }
+            }
+        }
+    },
+    "kind": "Stateful"
+}
